@@ -1,10 +1,5 @@
 /**
- * todo
- * データフェッチをNext.jsのものに書き換える
- * youtubeの動画を参考にする
- *
- * ローディング中の表示もloading.tsxに変える
- * 天気予報のデータフェッチも修正する？
+ * usestaやuseEffectを使わないので、useclientは今のところ不要
  */
 import Image from "next/image";
 
@@ -16,10 +11,9 @@ type Products = {
   description: string;
   image: string;
 };
-
-// サーバーからデータを取得する関数
+// RSCを使って関数コンポーネントを作成
 export default async function Home() {
-  // データの取得 fetch関数を使ってデータを取得
+  // fetchAPIを使ってデータを取得
   const res = await fetch("https://fakestoreapi.com/products?limit=5");
   // レスポンスがエラーの場合
   if (!res.ok) {
@@ -31,8 +25,9 @@ export default async function Home() {
   return (
     <div className="container mx-auto py-10">
       <h1 className="text-4xl font-bold text-center mb-8">製品一覧</h1>
-      {/* 製品１つを表すカード１つ分 */}
+      {/* 製品一覧をグリッドで表示する */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        {/* 製品１つを表すカード */}
         {products.map((product) => (
           <div key={product.id} className="border p-4 rounded-lg shadow-lg">
             <Image
