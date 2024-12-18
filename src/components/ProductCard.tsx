@@ -1,11 +1,7 @@
 import Image from "next/image";
 import { Products } from "@/types/products";
 
-interface ProductCardProps {
-  product: Products;
-}
-
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product }: { product: Products }) {
   return (
     <div className="border p-4 rounded-lg shadow-lg">
       <Image
