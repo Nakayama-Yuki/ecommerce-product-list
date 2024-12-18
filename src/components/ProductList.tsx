@@ -1,4 +1,4 @@
-import ProductCard from "@/components/ProductCard";
+import { SortSelect } from "@/components/SortSelect";
 import { Products } from "@/types/products";
 
 export async function ProductList() {
@@ -8,11 +8,12 @@ export async function ProductList() {
   }
   const products: Products[] = await res.json();
 
+  // カテゴリーの一覧を取得
+  const categories = [...new Set(products.map((product) => product.category))];
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+    <div className="mb-4">
+      <SortSelect categories={categories} products={products} />
     </div>
   );
 }
