@@ -29,7 +29,7 @@ function SkeletonCard() {
   );
 }
 
-export function SkeletonSelect() {
+function SkeletonSelect() {
   return (
     <div
       className="w-40 h-10 border rounded bg-gray-200 animate-pulse"
