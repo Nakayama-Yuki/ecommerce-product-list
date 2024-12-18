@@ -1,3 +1,21 @@
+// スケルトンローディングをグリッド表示するコンポーネント
+export default function SkeletonProductCard() {
+  const skeletons = Array.from({ length: 3 });
+
+  return (
+    <>
+      <div className="flex justify-start mb-8">
+        <SkeletonSelect />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        {skeletons.map((_, index) => (
+          <SkeletonCard key={index} />
+        ))}
+      </div>
+    </>
+  );
+}
+
 // スケルトンカードを表すコンポーネント
 function SkeletonCard() {
   return (
@@ -11,15 +29,11 @@ function SkeletonCard() {
   );
 }
 
-// スケルトンローディングをグリッド表示するコンポーネント
-export default function SkeletonProductCard() {
-  const skeletons = Array.from({ length: 3 });
-
+export function SkeletonSelect() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-      {skeletons.map((_, index) => (
-        <SkeletonCard key={index} />
-      ))}
-    </div>
+    <div
+      className="w-40 h-10 border rounded bg-gray-200 animate-pulse"
+      aria-label="カテゴリー選択読み込み中"
+    />
   );
 }
