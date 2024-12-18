@@ -1,4 +1,4 @@
-import { SortSelect } from "@/components/SortSelect";
+import { FilterableProductList } from "@/components/FilterableProductList";
 import { Products } from "@/types/products";
 
 export async function ProductList() {
@@ -13,7 +13,7 @@ export async function ProductList() {
 
   return (
     <div className="mb-4">
-      <SortSelect categories={categories} products={products} />
+      <FilterableProductList categories={categories} products={products} />
     </div>
   );
 }

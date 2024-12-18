@@ -1,4 +1,4 @@
-// SortSelect.tsx
+// FilterableProductList.tsx
 "use client";
 
 import { useState } from "react";
@@ -10,7 +10,7 @@ type Props = {
   products: Products[];
 };
 
-export function SortSelect({ categories, products }: Props) {
+export function FilterableProductList({ categories, products }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   // フィルタリングされた商品を取得
