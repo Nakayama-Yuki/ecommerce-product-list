@@ -42,7 +42,7 @@ export function FilterableProductList({ categories, products }: Props) {
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <div>
+    <>
       {/* セレクトボタン */}
       <select
         className="border p-2 rounded"
@@ -58,16 +58,19 @@ export function FilterableProductList({ categories, products }: Props) {
 
       {/* カートの表示 */}
       <div className="mt-4 p-4 border rounded">
-        <h2 className="text-xl font-bold mb-2">カート</h2>
+        <h2 className="text-xl font-bold mb-2">商品カート</h2>
         {cart.map((item) => (
           <div key={item.id} className="flex justify-between items-center mb-2">
-            <span>
-              {item.title} x {item.quantity}
-            </span>
+            <div>
+              <span className="font-normal">{item.title}</span>
+              <span className="text-gray-500 ml-2">× {item.quantity}</span>
+            </div>
             <span>¥{(item.price * item.quantity).toFixed(0)}</span>
           </div>
         ))}
-        <div className="mt-4 font-bold">合計: ¥{total.toFixed(0)}</div>
+        <div className="mt-4 font-bold flex justify-end">
+          合計: ¥{total.toFixed(0)}
+        </div>
       </div>
 
       {/* 商品一覧をグリッドで表示 */}
@@ -80,6 +83,6 @@ export function FilterableProductList({ categories, products }: Props) {
           />
         ))}
       </div>
-    </div>
+    </>
   );
 }
