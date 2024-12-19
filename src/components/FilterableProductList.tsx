@@ -43,6 +43,7 @@ export function FilterableProductList({ categories, products }: Props) {
 
   return (
     <div>
+      {/* セレクトボタン */}
       <select
         className="border p-2 rounded"
         value={selectedCategory}
@@ -69,6 +70,7 @@ export function FilterableProductList({ categories, products }: Props) {
         <div className="mt-4 font-bold">合計: ¥{total.toFixed(0)}</div>
       </div>
 
+      {/* 商品一覧をグリッドで表示 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-4">
         {filteredProducts.map((product) => (
           <ProductCard
