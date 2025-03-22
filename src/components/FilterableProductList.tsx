@@ -45,7 +45,7 @@ export function FilterableProductList({ categories, products }: Props) {
     <>
       {/* セレクトボタン */}
       <select
-        className="border p-2 rounded"
+        className="border p-2 rounded-sm"
         value={selectedCategory}
         onChange={(e) => setSelectedCategory(e.target.value)}>
         <option value="all">すべてのカテゴリー</option>
@@ -57,7 +57,7 @@ export function FilterableProductList({ categories, products }: Props) {
       </select>
 
       {/* カートの表示 */}
-      <div className="mt-4 p-4 border rounded">
+      <div className="mt-4 p-4 border rounded-sm">
         <h2 className="text-xl font-bold mb-2">商品カート</h2>
         {cart.map((item) => (
           <div key={item.id} className="flex justify-between items-center mb-2">

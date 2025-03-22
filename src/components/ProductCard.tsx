@@ -23,7 +23,7 @@ export default function ProductCard({
       <p className="text-gray-700 mb-4">{product.description}</p>
       <p className="text-lg font-bold text-blue-600">¥{product.price}</p>
       <button
-        className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+        className="mt-4 w-full bg-blue-500 text-white py-2 rounded-sm hover:bg-blue-600"
         onClick={onAddToCart}>
         カートに追加
       </button>
