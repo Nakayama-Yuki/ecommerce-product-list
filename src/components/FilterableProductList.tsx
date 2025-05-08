@@ -1,21 +1,27 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import { Products } from "@/types/products";
+import { useCart } from "@/contexts/CartContext";
 
 type Props = {
   categories: string[];
   products: Products[];
 };
 
-interface CartItem extends Products {
-  quantity: number;
-}
-
+/**
+ * 商品リストコンポーネント
+ * カテゴリーフィルタリングとカート管理機能を提供
+ *
+ * @param categories - 利用可能なカテゴリーのリスト
+ * @param products - 表示する商品のリスト
+ */
 export function FilterableProductList({ categories, products }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const { items, addToCart, total } = useCart();
+  const router = useRouter();
 
   // フィルタリングされた商品を取得
   const filteredProducts =
@@ -23,26 +29,13 @@ export function FilterableProductList({ categories, products }: Props) {
       ? products
       : products.filter((product) => product.category === selectedCategory);
 
-  // カートに商品を追加する関数
-  const addToCart = (product: Products) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id);
-      if (existingItem) {
-        return prevCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
+  // 注文ページへ遷移する関数
+  const handleProceedToCheckout = () => {
+    router.push("/order");
   };
 
-  // カートの合計金額を計算
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
   return (
-    <>
+    <div className="mb-4">
       {/* セレクトボタン */}
       <select
         className="border p-2 rounded-sm"
@@ -59,18 +52,32 @@ export function FilterableProductList({ categories, products }: Props) {
       {/* カートの表示 */}
       <div className="mt-4 p-4 border rounded-sm">
         <h2 className="text-xl font-bold mb-2">商品カート</h2>
-        {cart.map((item) => (
-          <div key={item.id} className="flex justify-between items-center mb-2">
-            <div>
-              <span className="font-normal">{item.title}</span>
-              <span className="text-gray-500 ml-2">× {item.quantity}</span>
+        {items.length === 0 ? (
+          <p className="text-gray-500">カートに商品がありません</p>
+        ) : (
+          <>
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="flex justify-between items-center mb-2">
+                <div>
+                  <span className="font-normal">{item.title}</span>
+                  <span className="text-gray-500 ml-2">× {item.quantity}</span>
+                </div>
+                <span>¥{(item.price * item.quantity).toFixed(0)}</span>
+              </div>
+            ))}
+            <div className="mt-4 font-bold flex justify-end">
+              合計: ¥{total.toFixed(0)}
             </div>
-            <span>¥{(item.price * item.quantity).toFixed(0)}</span>
-          </div>
-        ))}
-        <div className="mt-4 font-bold flex justify-end">
-          合計: ¥{total.toFixed(0)}
-        </div>
+            <button
+              onClick={handleProceedToCheckout}
+              disabled={items.length === 0}
+              className="mt-4 w-full py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed">
+              注文手続きへ進む
+            </button>
+          </>
+        )}
       </div>
 
       {/* 商品一覧をグリッドで表示 */}
@@ -83,6 +90,6 @@ export function FilterableProductList({ categories, products }: Props) {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
