@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useActionState } from "react";
+import { useActionState } from "react";
 import Link from "next/link";
 import { processOrder } from "@/lib/orderActions";
 import { CartItem } from "@/types/cart";
@@ -18,22 +18,18 @@ interface OrderFormProps {
  * @param onOrderSuccess - 注文成功時のコールバック
  */
 export function OrderForm({ cartItems, onOrderSuccess }: OrderFormProps) {
-  const formRef = useRef<HTMLFormElement>(null);
-
   // サーバーアクションとその状態を管理
   const [state, formAction, isPending] = useActionState(
-    async (prevState, formData: FormData) => {
+    async (prevState: unknown, formData: FormData) => {
       const result = await processOrder(formData, cartItems);
 
       // 成功した場合、フォームをリセットして成功コールバックを実行
       if (result.success) {
-        formRef.current?.reset();
         onOrderSuccess(result.orderId);
       }
-
       return result;
     },
-    null
+    undefined
   );
 
   // カートの合計金額を計算
@@ -61,7 +57,7 @@ export function OrderForm({ cartItems, onOrderSuccess }: OrderFormProps) {
       )}
 
       {/* 注文フォーム */}
-      <form ref={formRef} action={formAction} className="space-y-4">
+      <form action={formAction} className="space-y-4">
         {/* 氏名入力フィールド */}
         <div>
           <label htmlFor="name" className="block text-sm font-medium mb-1">
@@ -71,8 +67,8 @@ export function OrderForm({ cartItems, onOrderSuccess }: OrderFormProps) {
             type="text"
             id="name"
             name="name"
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {state?.fieldErrors?.name && (
             <p className="mt-1 text-sm text-red-600">
@@ -90,8 +86,8 @@ export function OrderForm({ cartItems, onOrderSuccess }: OrderFormProps) {
             type="email"
             id="email"
             name="email"
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {state?.fieldErrors?.email && (
             <p className="mt-1 text-sm text-red-600">
@@ -129,7 +125,7 @@ export function OrderForm({ cartItems, onOrderSuccess }: OrderFormProps) {
           </Link>
           <button
             type="submit"
-            disabled={cartItems.length === 0}
+            disabled={cartItems.length === 0 || isPending}
             className="flex-1 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed">
             注文確定
           </button>
