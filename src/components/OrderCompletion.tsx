@@ -1,8 +1,7 @@
 import Link from "next/link";
 
 interface OrderCompletionProps {
-  orderId: string;
-  onBackToShopping: () => void;
+  orderId: string; // The unique identifier for the order
 }
 
 /**
@@ -10,12 +9,8 @@ interface OrderCompletionProps {
  * 注文完了後に表示され、注文IDと買い物を続けるためのリンクを提供します
  *
  * @param orderId - 注文ID
- * @param onBackToShopping - 買い物を続けるボタンのコールバック
  */
-export function OrderCompletion({
-  orderId,
-  onBackToShopping,
-}: OrderCompletionProps) {
+export function OrderCompletion({ orderId }: OrderCompletionProps) {
   return (
     <div className="w-full max-w-md mx-auto bg-white p-6 rounded-md shadow-md text-center">
       <div className="mb-6">
@@ -48,11 +43,12 @@ export function OrderCompletion({
         <p className="font-mono text-lg font-semibold">{orderId}</p>
       </div>
 
-      <button
-        onClick={onBackToShopping}
-        className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
+      <Link
+        href="/"
+        aria-label="ショッピングを続ける"
+        className="block w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 transition-colors text-center">
         ショッピングを続ける
-      </button>
+      </Link>
     </div>
   );
 }
