@@ -24,33 +24,16 @@ export default function OrderPage() {
     clearCart();
   };
 
-  // 注文キャンセル時の処理
-  const handleCancel = () => {
-    router.push("/");
-  };
-
-  // 注文完了後にショッピングを続ける処理
-  const handleBackToShopping = () => {
-    router.push("/");
-  };
-
   return (
     <main className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-8 text-center">注文ページ</h1>
 
       {orderCompleted ? (
         // 注文完了画面
-        <OrderCompletion
-          orderId={orderId}
-          onBackToShopping={handleBackToShopping}
-        />
+        <OrderCompletion orderId={orderId} />
       ) : (
         // 注文フォーム
-        <OrderForm
-          cartItems={cartItems}
-          onOrderSuccess={handleOrderSuccess}
-          onCancel={handleCancel}
-        />
+        <OrderForm cartItems={cartItems} onOrderSuccess={handleOrderSuccess} />
       )}
     </main>
   );

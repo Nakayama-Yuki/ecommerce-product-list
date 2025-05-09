@@ -1,13 +1,13 @@
 "use client";
 
 import { useRef, useActionState } from "react";
+import Link from "next/link";
 import { processOrder } from "@/lib/orderActions";
 import { CartItem } from "@/types/cart";
 
 interface OrderFormProps {
   cartItems: CartItem[];
   onOrderSuccess: (orderId: string) => void;
-  onCancel: () => void;
 }
 
 /**
@@ -16,13 +16,8 @@ interface OrderFormProps {
  *
  * @param cartItems - カート内の商品リスト
  * @param onOrderSuccess - 注文成功時のコールバック
- * @param onCancel - キャンセル時のコールバック
  */
-export function OrderForm({
-  cartItems,
-  onOrderSuccess,
-  onCancel,
-}: OrderFormProps) {
+export function OrderForm({ cartItems, onOrderSuccess }: OrderFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
 
   // サーバーアクションとその状態を管理
@@ -127,12 +122,11 @@ export function OrderForm({
 
         {/* 操作ボタン */}
         <div className="flex gap-4 mt-6">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors">
+          <Link
+            href="/"
+            className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors text-center">
             キャンセル
-          </button>
+          </Link>
           <button
             type="submit"
             disabled={cartItems.length === 0}
