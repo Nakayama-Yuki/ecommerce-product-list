@@ -24,7 +24,7 @@ export function OrderForm({ cartItems, onOrderSuccess }: OrderFormProps) {
       const result = await processOrder(formData, cartItems);
 
       // 成功した場合、フォームをリセットして成功コールバックを実行
-      if (result.success) {
+      if (result.success && result.orderId) {
         onOrderSuccess(result.orderId);
       }
       return result;

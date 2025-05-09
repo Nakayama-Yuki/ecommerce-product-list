@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import { Products } from "@/types/products";
 import { useCart } from "@/contexts/CartContext";
+import Link from "next/link";
 
 type Props = {
   categories: string[];
@@ -21,18 +21,12 @@ type Props = {
 export function FilterableProductList({ categories, products }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const { items, addToCart, total } = useCart();
-  const router = useRouter();
 
   // フィルタリングされた商品を取得
   const filteredProducts =
     selectedCategory === "all"
       ? products
       : products.filter((product) => product.category === selectedCategory);
-
-  // 注文ページへ遷移する関数
-  const handleProceedToCheckout = () => {
-    router.push("/order");
-  };
 
   return (
     <div className="mb-4">
@@ -70,12 +64,17 @@ export function FilterableProductList({ categories, products }: Props) {
             <div className="mt-4 font-bold flex justify-end">
               合計: ¥{total.toFixed(0)}
             </div>
-            <button
-              onClick={handleProceedToCheckout}
-              disabled={items.length === 0}
-              className="mt-4 w-full py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed">
+            {/*  注文手続きボタン */}
+            <Link
+              href={items.length === 0 ? "#" : "/order"}
+              onClick={(e) => items.length === 0 && e.preventDefault()}
+              className={`mt-4 w-full py-2 text-white rounded-sm block text-center ${
+                items.length === 0
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600"
+              }`}>
               注文手続きへ進む
-            </button>
+            </Link>
           </>
         )}
       </div>
