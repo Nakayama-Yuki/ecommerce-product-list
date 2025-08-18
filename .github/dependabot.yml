@@ -1,0 +1,24 @@
+version: 2
+updates:
+  # pnpm パッケージの更新設定
+  # pnpmでもpackage-ecosystemは"npm"を使用
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      # 更新のスケジュール設定
+      interval: "weekly" # 毎週更新
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    allow:
+      - dependency-type: "all"
+    labels:
+      - "dependencies"
+      - "automated"
+      - "pnpm"
+    # バージョン戦略の設定
+    versioning-strategy: "increase"
