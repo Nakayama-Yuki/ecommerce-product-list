@@ -22,3 +22,9 @@ updates:
       - "pnpm"
     # バージョン戦略の設定
     versioning-strategy: "increase"
+    # 依存関係をグループ化して1つのPRにまとめる
+    groups:
+      #　すべてを1つのPRにまとめる
+      all-updates:
+        patterns:
+          - "*"
