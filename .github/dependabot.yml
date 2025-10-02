@@ -1,30 +1,26 @@
 version: 2
 updates:
-  # pnpm パッケージの更新設定
-  # pnpmでもpackage-ecosystemは"npm"を使用
+  # npm dependencies (main package.json)
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      # 更新のスケジュール設定
-      interval: "weekly" # 毎週更新
-      day: "monday"
-      time: "09:00"
-      timezone: "Asia/Tokyo"
-    open-pull-requests-limit: 10
-    commit-message:
-      prefix: "chore"
-      include: "scope"
-    allow:
-      - dependency-type: "all"
-    labels:
-      - "dependencies"
-      - "automated"
-      - "pnpm"
-    # バージョン戦略の設定
-    versioning-strategy: "increase"
-    # 依存関係をグループ化して1つのPRにまとめる
+      interval: "weekly"
+
+    # Pull requestsの制限
+    open-pull-requests-limit: 5
+
+    # 特定の更新タイプを無視する設定
+    # メジャーアップデートを無効化（破壊的変更の可能性があるため）
+    ignore:
+      # すべての依存関係に対して
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+    # マイナーおよびパッチアップデートのみを対象
     groups:
-      #　すべてを1つのPRにまとめる
-      all-updates:
+      minor-and-patch-updates:
         patterns:
           - "*"
+        update-types:
+          - "minor"
+          - "patch"
