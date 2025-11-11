@@ -1,13 +1,10 @@
 version: 2
 updates:
-  # npm dependencies (main package.json)
+  # npmパッケージの依存関係
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
-
-    # Pull requestsの制限
-    open-pull-requests-limit: 5
+      interval: "weekly" # 毎週更新をチェック
 
     # 特定の更新タイプを無視する設定
     # メジャーアップデートを無効化（破壊的変更の可能性があるため）
