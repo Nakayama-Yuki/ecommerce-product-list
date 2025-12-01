@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 interface OrderCompletionProps {
-  orderId: string; // The unique identifier for the order
+  orderId: string; // 注文の一意識別子
 }
 
 /**

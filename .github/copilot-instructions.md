@@ -2,15 +2,15 @@
 
 ## 概要
 
-このプロジェクトは Next.js 15 App Router を使用した E コマース製品一覧アプリです。Fake Store API から製品データを取得し、React Context によるカート管理、Zod バリデーション、Server Actions を活用しています。
+このプロジェクトは Next.js 16 App Router を使用した E コマース製品一覧アプリです。Fake Store API から製品データを取得し、React Context によるカート管理、Zod バリデーション、Server Actions を活用しています。
 
 ## アーキテクチャの要点
 
 ### データフロー
 
 1. **ProductList** (Server Component) → Fake Store API 呼び出し → **FilterableProductList** (Client Component)
-2. **CartContext** が全アプリケーションでカート状態を管理
-3. **OrderForm** → Server Actions (**processOrder**) → 疑似注文処理
+2. **CartContext** が全アプリケーションでカート状態を管理（`addToCart`, `clearCart`, `total` を提供）
+3. **OrderForm** → Server Actions (**processOrder**) → 疑似注文処理 → 成功時に `clearCart` 実行
 
 ### 主要パターン
 
@@ -68,8 +68,20 @@ export async function processOrder(formData: FormData, cartItems: CartItem[]) {
   // 1. カートの空チェック
   // 2. Zod バリデーション
   // 3. 疑似処理（実際の DB 連携なし）
-  // 4. 構造化されたレスポンス（success/error）
+  // 4. 構造化されたレスポンス（success/error/fieldErrors）
 }
+```
+
+#### useActionState パターン
+
+OrderForm では React 19 の `useActionState` フックを使用して Server Action の状態を管理：
+
+```tsx
+const [state, formAction, isPending] = useActionState(
+  submitAction,
+  initialState
+);
+// state.fieldErrors でフィールドごとのバリデーションエラーを表示
 ```
 
 ### コンポーネント構造
@@ -77,6 +89,21 @@ export async function processOrder(formData: FormData, cartItems: CartItem[]) {
 - **Server Components**: データ取得（ProductList）
 - **Client Components**: インタラクション（FilterableProductList, OrderForm）
 - 日本語コメントが標準（JSDoc 形式）
+
+#### ProductCard の UI 機能
+
+- **説明文短縮/展開**: 100 文字で短縮し、「続きを読む」ボタンで展開（`isExpanded` state 管理）
+- **カート追加アニメーション**: クリック時に 0.7 秒間ボタンが緑色に変わり「追加しました ✓」表示
+
+#### FilterableProductList のフィルタリング UI
+
+- `<select>` 要素でカテゴリー選択
+- 「すべてのカテゴリー」オプション付き
+
+#### OrderForm の UI 機能
+
+- バリデーションエラー: `fieldErrors` で各フィールド下に表示
+- 「キャンセル」ボタン: ホームページへのリンク
 
 ### スタイリング
 

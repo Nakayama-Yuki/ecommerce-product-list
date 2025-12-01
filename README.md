@@ -7,14 +7,14 @@
 
 - **製品一覧表示**: カテゴリー別フィルタリング機能付き
 - **製品詳細**: 製品の詳細情報と画像の表示
-- **ショッピングカート**: 製品の追加と数量管理
+- **ショッピングカート**: 製品の追加、数量管理、カートクリア機能
 - **注文プロセス**: ユーザー情報入力と注文完了フロー
 - **レスポンシブデザイン**: モバイルからデスクトップまで対応
 
 ## 技術スタック
 
 - **フロントエンド**:
-  - Next.js 15 (App Router)
+  - Next.js 16 (App Router)
   - React 19
   - TypeScript 5
   - Tailwind CSS 4
@@ -67,6 +67,10 @@ pnpm start
 src/
 ├── app/               # App Routerページ
 │   ├── page.tsx       # ホームページ
+│   ├── layout.tsx     # ルートレイアウト
+│   ├── loading.tsx    # ローディング UI
+│   ├── error.tsx      # エラーバウンダリ
+│   ├── globals.css    # グローバルスタイル
 │   └── order/         # 注文ページ
 ├── components/        # UIコンポーネント
 │   ├── ProductList.tsx
@@ -89,7 +93,7 @@ src/
 
 - **ProductList**: Fake Store API から製品データを取得
 - **FilterableProductList**: カテゴリーフィルタリングとカート管理
-- **ProductCard**: 個々の製品表示と「カートに追加」機能
+- **ProductCard**: 個々の製品表示、説明文の展開/折りたたみ、「カートに追加」アニメーション機能
 - **CartContext**: アプリケーション全体でのカート状態管理
 - **OrderForm**: ユーザー情報入力と注文処理
 - **OrderCompletion**: 注文完了の確認画面

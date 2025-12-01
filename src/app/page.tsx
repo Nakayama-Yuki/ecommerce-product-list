@@ -1,4 +1,4 @@
-//  * usestaやuseEffectを使用していないので、useclientは今のところ不要
+// useStateやuseEffectを使用していないので、"use client"は今のところ不要
 
 import { Suspense } from "react";
 import { ProductList } from "@/components/ProductList";
