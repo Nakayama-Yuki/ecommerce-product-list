@@ -10,10 +10,7 @@ export const orderSchema = z.object({
     .string()
     .min(1, { message: "氏名は必須です" })
     .max(50, { message: "氏名は50文字以内で入力してください" }),
-  email: z
-    .string()
-    .min(1, { message: "メールアドレスは必須です" })
-    .email({ message: "有効なメールアドレスを入力してください" }),
+  email: z.email({ message: "有効なメールアドレスを入力してください" }),
 });
 
 // 注文フォームの型定義
