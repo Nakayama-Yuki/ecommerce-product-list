@@ -2,6 +2,8 @@ import { FilterableProductList } from "@/components/FilterableProductList";
 import { Products } from "@/types/products";
 
 export async function ProductList() {
+  // 関数レベルでキャッシュを有効化
+  "use cache";
   const res = await fetch("https://fakestoreapi.com/products");
   if (!res.ok) {
     throw new Error("データの取得に失敗しました");
