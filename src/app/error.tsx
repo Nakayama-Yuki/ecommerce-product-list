@@ -1,4 +1,5 @@
-"use client"; //エラーコンポーネントはクライアントコンポーネントである必要がある
+//エラーコンポーネントはクライアントコンポーネントである必要がある
+"use client"; 
 
 import { useEffect } from "react";
 
