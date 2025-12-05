@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  //　キャッシュコンポネントの有効化（完全なオプトイン）
+  // キャッシュコンポーネントの有効化（完全なオプトイン）
   cacheComponents: true,
   // Docker本番ビルド用のstandalone出力設定
   output: "standalone",
