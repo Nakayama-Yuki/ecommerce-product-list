@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
-// Next.jsでは、外部の画像を使用する場合、そのホスト名を明示的に設定する必要がある
+
 const nextConfig = {
+  // キャッシュコンポーネントの有効化（完全なオプトイン）
+  cacheComponents: true,
+  // Next.jsでは、外部の画像を使用する場合、そのホスト名を明示的に設定する必要がある
   images: {
     remotePatterns: [
       {

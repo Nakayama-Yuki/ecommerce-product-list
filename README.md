@@ -105,10 +105,6 @@ src/
 3. 注文プロセス中に`OrderForm`がユーザーデータを収集し、注文を作成
 4. 注文完了後、`OrderCompletion`が確認画面を表示
 
-## ライセンス
-
-このプロジェクトは MIT ライセンスの下で公開されています。
-
 ## 謝辞
 
 - 製品データ提供: [Fake Store API](https://fakestoreapi.com/)

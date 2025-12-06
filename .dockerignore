@@ -1,0 +1,58 @@
+# =============================================================================
+# Docker ビルドコンテキストから除外するファイル
+# =============================================================================
+
+# 依存関係（ビルドステージで再インストール）
+node_modules
+
+# Next.js ビルド成果物（ビルドステージで再生成）
+.next
+out
+
+# Git
+.git
+.gitignore
+
+# GitHub（CI設定等）
+.github
+
+# 環境変数（ローカル開発用）
+.env
+.env.*
+!.env.example
+
+# Docker 関連（再帰的コピー防止）
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# IDE・エディタ設定
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS 生成ファイル
+.DS_Store
+Thumbs.db
+
+# ログ・デバッグ
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+
+# テスト関連
+coverage
+.nyc_output
+playwright-report
+test-results
+
+# ドキュメント（実行時不要）
+*.md
+LICENSE
+
+# TypeScript ビルド情報（Next.js が管理）
+*.tsbuildinfo
