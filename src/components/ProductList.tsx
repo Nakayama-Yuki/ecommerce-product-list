@@ -1,5 +1,4 @@
-// キャッシュコンポネントトとして動作させる
-"use cache";
+"use cache"; // キャッシュコンポネントトとして動作させる
 
 import { FilterableProductList } from "@/components/FilterableProductList";
 import { Products } from "@/types/products";
