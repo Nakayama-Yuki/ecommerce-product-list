@@ -12,27 +12,28 @@ import { defineConfig, devices } from "@playwright/test";
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  // テストディレクトリを指定
   testDir: "./tests",
-  /* Run tests in files in parallel */
+  // テストをファイル単位で並行実行する
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
+  // 事故的にtest.onlyがソースコードに残っている場合、CIビルドを失敗させる
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
+  // ci環境でのみテストをリトライする
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
+  // ci環境では並列実行をオプトアウトする（実行しない）
   workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  // レポーターの設定　See https://playwright.dev/docs/test-reporters
   reporter: "html",
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  // 全てのプロジェクトに共通の設定　See https://playwright.dev/docs/api/class-testoptions.
   use: {
-    /* Base URL to use in actions like `await page.goto('')`. */
+    // `await page.goto('')`のようなアクションで使用するベースURL
     baseURL: "http://localhost:3000",
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    // トレースを収集する設定　See https://playwright.dev/docs/trace-viewer
     trace: "on-first-retry",
   },
 
-  /* Configure projects for major browsers */
+  // 主要なブラウザ用のプロジェクトを設定する
   projects: [
     {
       name: "chromium",
@@ -49,7 +50,7 @@ export default defineConfig({
       use: { ...devices["Desktop Safari"] },
     },
 
-    /* Test against mobile viewports. */
+    // モバイルのビューポート（横幅）に対するテスト
     // {
     //   name: 'Mobile Chrome',
     //   use: { ...devices['Pixel 5'] },
@@ -59,7 +60,7 @@ export default defineConfig({
     //   use: { ...devices['iPhone 12'] },
     // },
 
-    /* Test against branded browsers. */
+    // 有名なブラウザに対するテスト
     // {
     //   name: 'Microsoft Edge',
     //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
@@ -70,9 +71,9 @@ export default defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
+  // ローカルの開発サーバーを起動してからテストを実行する
   webServer: {
-    command: "pnpm dev",
+    command: "pnpm start",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },
