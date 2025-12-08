@@ -18,9 +18,9 @@ export default defineConfig({
   fullyParallel: true,
   // 事故的にtest.onlyがソースコードに残っている場合、CIビルドを失敗させる
   forbidOnly: !!process.env.CI,
-  // ci環境でのみテストをリトライする
+  // CI環境でのみテストをリトライする
   retries: process.env.CI ? 2 : 0,
-  // ci環境では並列実行をオプトアウトする（実行しない）
+  // CI環境では並列実行をオプトアウトする（実行しない）
   workers: process.env.CI ? 1 : undefined,
   // レポーターの設定　See https://playwright.dev/docs/test-reporters
   reporter: "html",
