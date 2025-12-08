@@ -24,7 +24,7 @@ test.describe("Product List Page", () => {
       const addToCartButtons = page.getByRole("button", {
         name: "カートに追加",
       });
-      await expect(addToCartButtons.first()).toBeVisible({ timeout: 15000 });
+      await expect(addToCartButtons.first()).toBeVisible();
 
       // 複数の商品が表示されることを確認（最低5件以上）
       const count = await addToCartButtons.count();
@@ -32,8 +32,8 @@ test.describe("Product List Page", () => {
     });
 
     await test.step("Verify product card structure", async () => {
-      // 商品画像が表示されること（最低1件）
-      const productImages = page.locator("img[alt]").filter({ hasNotText: "" });
+      // 商品画像が表示されること（alt属性が空でないものを対象、最低1件）
+      const productImages = page.locator('img[alt]:not([alt=""])');
       await expect(productImages.first()).toBeVisible();
 
       // 商品タイトル（h2見出し）が表示されること
