@@ -21,7 +21,7 @@ jobs:
   # "build-and-test"という名前のジョブ
   build-and-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 60 # タイムアウトを60分に設定
 
     # 実行するステップの定義
     steps:
