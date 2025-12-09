@@ -53,11 +53,11 @@ jobs:
 
       # ステップ6: Playwrightブラウザのインストール
       - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
+        run: pnpm dlx playwright install --with-deps
 
       # ステップ7: Playwrightテストの実行
       - name: Run Playwright tests
-        run: pnpm exec playwright test
+        run: pnpm dlx playwright test
 
       # ステップ8: テストレポートのアップロード（失敗時も実行）
       - name: Upload test report
