@@ -51,13 +51,13 @@ jobs:
       - name: Build project
         run: pnpm build
 
-      # ステップ6: Playwrightブラウザのインストール
+      # ステップ6: Playwrightブラウザのインストール(pnpm dlxではなくexecが必要)
       - name: Install Playwright Browsers
-        run: pnpm dlx playwright install --with-deps
+        run: pnpm exec playwright install --with-deps
 
       # ステップ7: Playwrightテストの実行
       - name: Run Playwright tests
-        run: pnpm test:e2e
+        run: pnpm exec playwright test
 
       # ステップ8: テストレポートのアップロード（失敗時も実行）
       - name: Upload test report

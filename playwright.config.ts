@@ -91,9 +91,9 @@ export default defineConfig({
   // ローカルの開発サーバーを起動してからテストを実行する
   // 詳細: https://playwright.dev/docs/test-advanced#launching-a-development-web-server-during-the-tests
   webServer: {
-    command: "pnpm start",
+    command: "pnpm build && pnpm start",
     url: baseURL,
-    timeout: 120 * 1000,
+    timeout: 120 * 1000, // 起動タイムアウトを120秒に設定
     reuseExistingServer: !process.env.CI,
   },
 });
