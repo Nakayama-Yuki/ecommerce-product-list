@@ -1,79 +1,99 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
+import path from "path";
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
 // import dotenv from 'dotenv';
-// import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+// process.env.PORTを使用し、フォールバックとしてポート3000を使用
+const PORT = process.env.PORT || 3000;
+
+// webServer.urlとuse.baseURLを正しく設定されたポートの場所で使用
+const baseURL = `http://localhost:${PORT}`;
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
-  /* Run tests in files in parallel */
+  // テスト毎のタイムアウト
+  timeout: 30 * 1000,
+  // テストディレクトリを指定
+  testDir: path.join(__dirname, "tests"),
+  // テストをファイル単位で並行実行する
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
+  // 事故的にtest.onlyがソースコードに残っている場合、CIビルドを失敗させる
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
+  // テストが失敗した場合、さらに2回リトライする
+  retries: 2,
+  // CI環境では並列実行をオプトアウトする（実行しない）
   workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  // アーティファクト（スクリーンショット、ビデオ、トレース）を保存するフォルダ
+  outputDir: "test-results/",
+  // レポーターの設定　See https://playwright.dev/docs/test-reporters
+  reporter: "html",
+  // 全てのプロジェクトに共通の設定　See https://playwright.dev/docs/api/class-testoptions.
   use: {
-    /* Base URL to use in actions like `await page.goto('')`. */
-    // baseURL: 'http://localhost:3000',
+    // `await page.goto('')`のようなアクションで使用するベースURL
+    // 詳細: https://playwright.dev/docs/api/class-testoptions#test-options-base-url
+    baseURL,
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    // トレースを収集する設定
+    // 失敗したテストのトレースを有効にして、DOM、コンソールログ、ネットワークトラフィックなどを分析できるようにする
+    // 詳細: https://playwright.dev/docs/trace-viewer
+    trace: "retry-with-trace",
+
+    // 利用可能なすべてのコンテキストオプション:
+    // https://playwright.dev/docs/api/class-browser#browser-new-context
+    // contextOptions: {
+    //   ignoreHTTPSErrors: true,
+    // },
   },
 
-  /* Configure projects for major browsers */
+  // 主要なブラウザ用のプロジェクトを設定する
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "Desktop Chrome",
+      use: {
+        ...devices["Desktop Chrome"],
+      },
     },
 
+    // {
+    //   name: 'Desktop Firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //   },
+    // },
+
+    // {
+    //   name: 'Desktop Safari',
+    //   use: {
+    //     ...devices['Desktop Safari'],
+    //   },
+    // },
+
+    // モバイルのビューポート（横幅）に対するテスト
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: "Mobile Chrome",
+      use: {
+        ...devices["Pixel 5"],
+      },
     },
-
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: "Mobile Safari",
+      use: devices["iPhone 12"],
     },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  // ローカルの開発サーバーを起動してからテストを実行する
+  // 詳細: https://playwright.dev/docs/test-advanced#launching-a-development-web-server-during-the-tests
+  webServer: {
+    command: "pnpm build && pnpm start",
+    url: baseURL,
+    timeout: 120 * 1000, // 起動タイムアウトを120秒に設定
+    reuseExistingServer: !process.env.CI,
+  },
 });

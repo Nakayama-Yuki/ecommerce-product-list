@@ -21,7 +21,7 @@ jobs:
   # "build-and-test"という名前のジョブ
   build-and-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 60 # タイムアウトを60分に設定
 
     # 実行するステップの定義
     steps:
@@ -49,9 +49,9 @@ jobs:
 
       # ステップ5: プロジェクトをビルド
       - name: Build project
-        run: pnpm run build
+        run: pnpm build
 
-      # ステップ6: Playwrightブラウザのインストール
+      # ステップ6: Playwrightブラウザのインストール(pnpm dlxではなくexecが必要)
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
 
